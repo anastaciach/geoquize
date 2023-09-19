@@ -1,5 +1,6 @@
 package com.example.geoquize
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -16,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var questionTextView: TextView
     private var canAnswer = true
     private var canGoToNext = false
+    private var correctAnswers = 0
+
 
     private  val KEY_INDEX="index"
     private val questionBank=listOf(
@@ -73,12 +76,22 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion(){
         val questionTextResId=questionBank[currentIndex].textResId
         questionTextView.setText(questionTextResId)
+        //сброс флагов перед след. вопросом
+        canAnswer = true
+        canGoToNext = false
+        updateButtonState()
 
+        if (currentIndex == questionBank.size - 1) {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra("CORRECT_ANSWERS", correctAnswers)
+            startActivity(intent)
+        }
     }
     private fun checkAnswer(userAnswer:Boolean){
         val correctAnswer=questionBank[currentIndex].answer
         val messageResId= if (userAnswer==correctAnswer){
             R.string.correct_toast
+            correctAnswers++
         }
             else { R.string.incorrect_toast
             }
