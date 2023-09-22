@@ -1,6 +1,8 @@
 package com.example.geoquize
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import android.widget.TextView
 import androidx.activity.compose.setContent
@@ -22,7 +24,16 @@ class ResultActivity : ComponentActivity() {
 
         val resultTextView = findViewById<TextView>(R.id.result_text_view)
         resultTextView.text = "Correct Answers: $correctAnswers"
+
+        val repeatButton = findViewById<Button>(R.id.repeat_button)
+        repeatButton.setOnClickListener {
+            // Создан интент для перехода обратно к MainActivity
+            /*val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)*/
+            finish()
+        }
     }
+
 }
 
 /*@Composable
