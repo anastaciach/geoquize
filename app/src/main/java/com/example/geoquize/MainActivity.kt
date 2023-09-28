@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
         setContentView(R.layout.activity_main)
+        val currentIndex=savedInstanceState?.getInt(KEY_INDEX,0)?:0
+        quizViewModel.currentIndex=currentIndex
         /*val provider:ViewModelProvider=ViewModelProvider(this)
         val quizViewModel=provider.get(QuizViewModel::class.java)
         Log.d(TAG,"Got a QuizViewModel:$quizViewModel")*/
@@ -65,6 +67,12 @@ class MainActivity : AppCompatActivity() {
     override fun onPause(){
         super.onPause()
         Log.d(TAG,"onPause() called")
+    }
+///???
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        super.onSaveInstanceState(savedInstanceState)
+        Log.i(TAG,"onSaveInstanceState")
+        savedInstanceState.putInt(KEY_INDEX,quizViewModel.currentIndex)
     }
     override fun onStop(){
         super.onStop()
