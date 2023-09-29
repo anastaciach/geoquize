@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace = "com.example.geoquize"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.geoquize"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 1
+        minSdk = 23
+        targetSdk = 34
+        versionCode = 6
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -51,13 +51,16 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.fragment:fragment-ktx:1.1.0")
+   // implementation ("androidx.fragment:fragment-ktx:1.1.0")
+    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.1")
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    //implementation("androidx.core:core-ktx:1.9.0") на форуме и в build output просили изменить на версию ниже
+    implementation("androidx.core:core-ktx:1.8.10")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
+   implementation("androidx.navigation:navigation-fragment-ktx:2.7.2")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.2")

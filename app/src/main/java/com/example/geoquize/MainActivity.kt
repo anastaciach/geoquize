@@ -85,15 +85,31 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion(){
         val questionTextResId=quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
+        //Сделать кнопки видимыми
+        trueButton.visibility = View.VISIBLE
+        falseButton.visibility = View.VISIBLE
+        trueButton.isClickable = true
+        falseButton.isClickable = true
+        if(quizViewModel.currentIndex == quizViewModel.questionBankSize - 1){
+            nextButton.visibility=View.INVISIBLE
+            nextButton.isClickable=false
+        }
     }
     private fun checkAnswer(userAnswer:Boolean){
         val correctAnswer=quizViewModel.currentQuestionAnswer
-        val messageResId= if (userAnswer==correctAnswer){
+        val messageResId=if (userAnswer==correctAnswer){
             R.string.correct_toast
+            //quizViewModel.correctAnswers++
         }
             else { R.string.incorrect_toast
             }
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT)
             .show()
+
+        trueButton.visibility = View.INVISIBLE
+        falseButton.visibility = View.INVISIBLE
+        trueButton.isClickable = false
+        falseButton.isClickable = false
         }
+
     }
