@@ -8,6 +8,9 @@ import com.example.geoquize.R
 private const val TAG="QuizViewModel"
 class QuizViewModel: ViewModel() {
     var currentIndex=0;
+    var isCheater = false
+
+
     private val questionBank=listOf(
         Question(R.string.question_australia,true),
         Question(R.string.question_oceans,true),
