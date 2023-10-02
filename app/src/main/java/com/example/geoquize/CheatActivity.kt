@@ -17,7 +17,7 @@ class CheatActivity : ComponentActivity() {
     private lateinit var answerTextView:TextView
     private lateinit var showAnswerButton: Button
     private var answerIsTrue=false
-    //private var cheatCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cheat)
@@ -32,19 +32,15 @@ class CheatActivity : ComponentActivity() {
         showAnswerButton=findViewById(R.id.show_answer_button)
 
         showAnswerButton.setOnClickListener(){
-            //if (cheatCount < 3){
             val answerText=when{
                 answerIsTrue->R.string.true_button
                 else-> R.string.false_button
             }
             answerTextView.setText(answerText)
             setAnswerShowResult(true)
-               // cheatCount++
+
         }
-           /* if (cheatCount == 3) {
-                showAnswerButton.isEnabled = false
-           }
-        }*/
+
     }
     private fun setAnswerShowResult (isAnswerShown:Boolean){
         val data=Intent().apply{

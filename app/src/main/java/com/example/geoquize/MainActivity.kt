@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var cheatButton:Button
 
     private val quizViewModel: QuizViewModel by viewModels()
-
+    private var cheatCount = 0
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,10 +58,17 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToNext()
            updateQuestion()
         }
-        cheatButton.setOnClickListener{
-            val answerIsTrue=quizViewModel.currentQuestionAnswer
-            val intent=CheatActivity.newIntent(this@MainActivity,answerIsTrue)
-            startActivityForResult(intent, REQUEST_CODE_CHEAT)
+        cheatButton.setOnClickListener {
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            if (cheatCount < 3) {
+                val intent = CheatActivity.newIntent(this@MainActivity, answerIsTrue)
+                startActivityForResult(intent, REQUEST_CODE_CHEAT)
+                cheatCount++
+            }
+            else{
+                cheatButton.isEnabled = false
+                Toast.makeText(this, "Вы использовали все доступные подсказки", Toast.LENGTH_SHORT).show()
+            }
         }
         updateQuestion()
     }
