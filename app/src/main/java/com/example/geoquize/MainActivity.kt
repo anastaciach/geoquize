@@ -1,4 +1,5 @@
 package com.example.geoquize
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,9 +24,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var falseButton:Button
     private lateinit var nextButton:Button
     private lateinit var questionTextView: TextView
+    private lateinit var cheatButton:Button
     private  val KEY_INDEX="index"
     private val quizViewModel: QuizViewModel by viewModels()
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate(Bundle?) called")
@@ -39,6 +42,7 @@ class MainActivity : AppCompatActivity() {
         falseButton=findViewById(R.id.false_button)
         nextButton=findViewById(R.id.next_button)
         questionTextView=findViewById(R.id.question_text_view)
+        cheatButton=findViewById(R.id.cheat_button)
 
         trueButton.setOnClickListener{view: View->
               checkAnswer(true)
@@ -52,9 +56,12 @@ class MainActivity : AppCompatActivity() {
             quizViewModel.moveToNext()
            updateQuestion()
         }
-
+        cheatButton.setOnClickListener{
+        val answerIsTrue=quizViewModel.currentQuestionAnswer
+            val intent=CheatActivity.newIntent(this@MainActivity,answerIsTrue)
+            startActivity(intent)
+        }
         updateQuestion()
-
     }
     override fun onStart(){
         super.onStart()
@@ -85,31 +92,39 @@ class MainActivity : AppCompatActivity() {
     private fun updateQuestion(){
         val questionTextResId=quizViewModel.currentQuestionText
         questionTextView.setText(questionTextResId)
-        //Сделать кнопки видимыми
         trueButton.visibility = View.VISIBLE
         falseButton.visibility = View.VISIBLE
         trueButton.isClickable = true
         falseButton.isClickable = true
-        if(quizViewModel.currentIndex == quizViewModel.questionBankSize - 1){
+        if((quizViewModel.currentIndex == quizViewModel.questionBankSize - 1)){
             nextButton.visibility=View.INVISIBLE
             nextButton.isClickable=false
         }
+
     }
     private fun checkAnswer(userAnswer:Boolean){
         val correctAnswer=quizViewModel.currentQuestionAnswer
         val messageResId=if (userAnswer==correctAnswer){
             R.string.correct_toast
-            //quizViewModel.correctAnswers++
         }
             else { R.string.incorrect_toast
             }
         Toast.makeText(this,messageResId,Toast.LENGTH_SHORT)
             .show()
-
+        if (userAnswer==correctAnswer){
+        quizViewModel.correctAnswers++
+        }
         trueButton.visibility = View.INVISIBLE
         falseButton.visibility = View.INVISIBLE
         trueButton.isClickable = false
         falseButton.isClickable = false
+        if(quizViewModel.currentIndex==quizViewModel.questionBankSize-1)
+         displayResult()
         }
+    private fun displayResult() {
+        val resultMessage = getString(R.string.result_message, quizViewModel.correctAnswers)
+        Toast.makeText(this, resultMessage, Toast.LENGTH_LONG).show()
 
+        // Здесь можно сделать дополнительные действия, если необходимо
+    }
     }
