@@ -18,14 +18,15 @@ import androidx.fragment.app.viewModels
 
 
 private const val TAG = "MainActivity"
-
+private  const val KEY_INDEX="index"
+private const val REQUEST_CODE_CHEAT=0
 class MainActivity : AppCompatActivity() {
     private lateinit var trueButton:Button
     private lateinit var falseButton:Button
     private lateinit var nextButton:Button
     private lateinit var questionTextView: TextView
     private lateinit var cheatButton:Button
-    private  val KEY_INDEX="index"
+
     private val quizViewModel: QuizViewModel by viewModels()
 
     @SuppressLint("SuspiciousIndentation")
@@ -59,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         cheatButton.setOnClickListener{
         val answerIsTrue=quizViewModel.currentQuestionAnswer
             val intent=CheatActivity.newIntent(this@MainActivity,answerIsTrue)
-            startActivity(intent)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
         }
         updateQuestion()
     }
